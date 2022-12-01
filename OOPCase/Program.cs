@@ -123,7 +123,7 @@ while (true)
         Console.WriteLine("Du har nu registreret et nyt køretøj. Her er alle registreret køretøjer: ");
         foreach (var vehicles in registrations)
         {
-            Console.WriteLine($"{vehicles.Customer.FirstName} {vehicles.Customer.LastName} har en {vehicles.Brand} {vehicles.Model} {vehicles.RegistrationYear} {vehicles.VehicleType.ToString().ToLower()} med nummerplade {vehicles.LicensePlate}, som bliver serviceret af {vehicles.Mechanic.FirstName} {vehicles.Mechanic.LastName}.");
+            Console.WriteLine($"{vehicles.Customer.FirstName} {vehicles.Customer.LastName} med tlf. {vehicles.Customer.PhoneNumber} har en {vehicles.Brand} {vehicles.Model} {vehicles.RegistrationYear} {vehicles.VehicleType.ToString().ToLower()} med nummerplade {vehicles.LicensePlate}, som bliver serviceret af {vehicles.Mechanic.FirstName} {vehicles.Mechanic.LastName} med tlf. {vehicles.Mechanic.PhoneNumber}.");
         }
         Console.WriteLine();
     }
@@ -135,7 +135,7 @@ while (true)
         {
             if (vehicle.Customer.FirstName.ToLower().Trim() == searchName.Split(" ")[0].ToLower().Trim() && vehicle.Customer.LastName.ToLower().Trim() == searchName.Split(" ")[1].ToLower().Trim())
             {
-                Console.WriteLine($"{vehicle.Customer.FirstName} {vehicle.Customer.LastName} har en {vehicle.Brand} {vehicle.Model} {vehicle.RegistrationYear} {vehicle.VehicleType.ToString().ToLower()} med nummerplade {vehicle.LicensePlate}, som bliver serviceret af {vehicle.Mechanic.FirstName} {vehicle.Mechanic.LastName}.");
+                Console.WriteLine($"{vehicle.Customer.FirstName} {vehicle.Customer.LastName} med tlf. {vehicle.Customer.PhoneNumber} har en {vehicle.Brand} {vehicle.Model} {vehicle.RegistrationYear} {vehicle.VehicleType.ToString().ToLower()} med nummerplade {vehicle.LicensePlate}, som bliver serviceret af {vehicle.Mechanic.FirstName} {vehicle.Mechanic.LastName} med tlf. {vehicle.Mechanic.PhoneNumber}.");
             }
         }
         Console.WriteLine();
@@ -148,7 +148,7 @@ while (true)
         {
             if (vehicle.Mechanic.FirstName.ToLower().Trim() == searchName.Split(" ")[0].ToLower().Trim() && vehicle.Mechanic.LastName.ToLower().Trim() == searchName.Split(" ")[1].ToLower().Trim())
             {
-                Console.WriteLine($"{vehicle.Mechanic.FirstName} {vehicle.Mechanic.LastName} servicerer en {vehicle.Brand} {vehicle.Model} {vehicle.RegistrationYear} med nummerplade {vehicle.LicensePlate} for {vehicle.Customer.FirstName} {vehicle.Customer.LastName}.");
+                Console.WriteLine($"{vehicle.Mechanic.FirstName} {vehicle.Mechanic.LastName} med tlf. {vehicle.Mechanic.PhoneNumber} servicerer en {vehicle.Brand} {vehicle.Model} {vehicle.RegistrationYear} med nummerplade {vehicle.LicensePlate} for {vehicle.Customer.FirstName} {vehicle.Customer.LastName} med tlf. {vehicle.Customer.PhoneNumber}.");
             }
         }
         Console.WriteLine();
