@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using OOPCase.Codes;
+using System.Text.RegularExpressions;
 
 Console.WriteLine("Velkommen!");
 
@@ -9,7 +10,8 @@ while (true)
 {
     Console.Write("Skriv en af følgende muligheder:\n" +
                   "[1] for at registrer ny bil\n" +
-                  "[2] for at søge i systemet\n" +
+                  "[2] for at søge efter kunde i systemet\n" +
+                  "[3] for at søge efter mekaniker i systemet\n" +
                   "[Q] for at afslutte programmet\n" +
                   "Skriv tegnet i parentes for at vælge: ");
     string? input = Console.ReadLine();
@@ -37,9 +39,8 @@ while (true)
             else if (customerPhoneNumberString.Length != 8)
             {
                 Console.WriteLine("Du skal skrive et telefonnummer på 8 cifre!");
-            }
-            
-            if (int.TryParse(customerPhoneNumberString, out customerPhoneNumber))
+            } 
+            else if (int.TryParse(customerPhoneNumberString, out customerPhoneNumber))
             {
                 break;
             }
@@ -55,7 +56,7 @@ while (true)
             {
                 Console.WriteLine("Du skal skrive noget!");
             }
-            else if (!Regex.IsMatch(vehicleLicensePlate.ToUpper(), @"^[A-ZÆØÅ][A-ZÆØÅ]\s\d\d\s\d\d\d$"))
+            else if (!Regex.IsMatch(vehicleLicensePlate.ToUpper(), @"^[A-Z]{2} \d{2} \d{3}$"))
             {
                 Console.WriteLine("Ugyldigt nummerplade format!");
             }
@@ -65,26 +66,28 @@ while (true)
             }
         }
         vehicleLicensePlate.ToUpper();
-        Console.WriteLine("Skriv mærket: ");
+        Console.Write("Skriv mærket: ");
         string? vehicleBrand = Console.ReadLine();
-        Console.WriteLine("Skriv modelen:");
+        Console.Write("Skriv modelen:");
         string? vehicleModel = Console.ReadLine();
-        DateTime registrationDate;
+        int? registrationYear;
         while (true)
         {
-            Console.Write("Skriv registreringsDato (dd/MM/yyyy): ");
-            string? registrationDateString = Console.ReadLine();
-            string[]? registrationDateSplit = registrationDateString.Split("/");
-            try
+            Console.Write("Skriv registrerings år (åååå): ");
+            string? registrationYearString = Console.ReadLine();
+            if (string.IsNullOrEmpty(registrationYearString))
             {
-                registrationDate = new DateTime(int.Parse(registrationDateSplit[2]), int.Parse(registrationDateSplit[1]), int.Parse(registrationDateSplit[0]));
+                Console.WriteLine("Du skal skrive noget!");
+            }
+            else if (int.TryParse(registrationYearString, out int registrationYearInt))
+            {
+                registrationYear = registrationYearInt;
                 break;
             }
-            catch (Exception)
+            else
             {
-                Console.WriteLine("Ugyldig dato!");
+                Console.WriteLine("Du skal skrive et tal!");
             }
-            Console.WriteLine("Du skal skrive et tal!");
         }
 
         VehicleType vehicleType;
@@ -114,39 +117,41 @@ while (true)
             Console.WriteLine("Ugyldig køretøjstype!");
         }
         Customer customer = new Customer(customerFirstName, customerLastName, customerPhoneNumber);
-        Vehicle vehicle = new Vehicle(customer, vehicleLicensePlate, vehicleBrand, vehicleModel, registrationDate, vehicleType);
+        Vehicle vehicle = new Vehicle(customer, vehicleLicensePlate, vehicleBrand, vehicleModel, registrationYear, vehicleType);
         registrations.Add(vehicle);
         registrations.Sort();
-        Console.WriteLine("Du har nu registreret en ny bil. Her er alle registreret biler:");
+        Console.WriteLine("Du har nu registreret et nyt køretøj. Her er alle registreret køretøjer: ");
         foreach (var vehicles in registrations)
         {
-            Console.WriteLine($"{vehicles.Customer.FirstName} {vehicles.Customer.LastName} har en {vehicles.Brand} {vehicles.Model} {vehicles.VehicleType.ToString().ToLower()} med nummerplade {vehicles.LicensePlate}, som bliver serviceret af {vehicles.Mechanic.FirstName} {vehicles.Mechanic.LastName}.");
+            Console.WriteLine($"{vehicles.Customer.FirstName} {vehicles.Customer.LastName} har en {vehicles.Brand} {vehicles.Model} {vehicles.RegistrationYear} {vehicles.VehicleType.ToString().ToLower()} med nummerplade {vehicles.LicensePlate}, som bliver serviceret af {vehicles.Mechanic.FirstName} {vehicles.Mechanic.LastName}.");
         }
         Console.WriteLine();
     }
     else if (input.ToLower().Trim() == "2")
     {
-        Console.Write("Skriv fornav og efternavn på en kunde: ");
+        Console.Write("Skriv fornavn og efternavn på en kunde: ");
         string? searchName = Console.ReadLine();
         foreach (var vehicle in registrations)
         {
             if (vehicle.Customer.FirstName.ToLower().Trim() == searchName.Split(" ")[0].ToLower().Trim() && vehicle.Customer.LastName.ToLower().Trim() == searchName.Split(" ")[1].ToLower().Trim())
             {
-                Console.WriteLine($"{vehicle.Customer.FirstName} {vehicle.Customer.LastName} har en {vehicle.Brand} {vehicle.Model} {vehicle.VehicleType.ToString().ToLower()} med nummerplade {vehicle.LicensePlate}, som bliver serviceret af {vehicle.Mechanic.FirstName} {vehicle.Mechanic.LastName}.");
+                Console.WriteLine($"{vehicle.Customer.FirstName} {vehicle.Customer.LastName} har en {vehicle.Brand} {vehicle.Model} {vehicle.RegistrationYear} {vehicle.VehicleType.ToString().ToLower()} med nummerplade {vehicle.LicensePlate}, som bliver serviceret af {vehicle.Mechanic.FirstName} {vehicle.Mechanic.LastName}.");
             }
         }
+        Console.WriteLine();
     }
     else if (input.ToLower().Trim() == "3")
     {
-        Console.Write("Skriv fornav og efternavn på en mekaniker: ");
+        Console.Write("Skriv fornavn og efternavn på en mekaniker: ");
         string? searchName = Console.ReadLine();
         foreach (var vehicle in registrations)
         {
             if (vehicle.Mechanic.FirstName.ToLower().Trim() == searchName.Split(" ")[0].ToLower().Trim() && vehicle.Mechanic.LastName.ToLower().Trim() == searchName.Split(" ")[1].ToLower().Trim())
             {
-                Console.WriteLine($"{vehicle.Mechanic.FirstName} {vehicle.Mechanic.LastName} servicerer en {vehicle.Brand} {vehicle.Model} med nummerplade {vehicle.LicensePlate} for {vehicle.Customer.FirstName} {vehicle.Customer.LastName}.");
+                Console.WriteLine($"{vehicle.Mechanic.FirstName} {vehicle.Mechanic.LastName} servicerer en {vehicle.Brand} {vehicle.Model} {vehicle.RegistrationYear} med nummerplade {vehicle.LicensePlate} for {vehicle.Customer.FirstName} {vehicle.Customer.LastName}.");
             }
         }
+        Console.WriteLine();
     }
     else if (input.ToLower().Trim() == "q")
     {

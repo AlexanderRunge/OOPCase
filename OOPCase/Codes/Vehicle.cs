@@ -13,7 +13,7 @@ namespace OOPCase.Codes
         public string? LicensePlate { get; set; }
         public string? Brand { get; set; }
         public string? Model { get; set; }
-        public DateTime? RegistrationDate { get; set; }
+        public int? RegistrationYear { get; set; }
         public VehicleType _VehicleType { get; set; }
         public VehicleType VehicleType
         {
@@ -40,13 +40,13 @@ namespace OOPCase.Codes
             }
         }
         public Mechanic? Mechanic { get; set; }
-        public Vehicle(Customer customer, string? licensePlate, string? brand, string? model, DateTime registrationDate, VehicleType vehicleType)
+        public Vehicle(Customer customer, string? licensePlate, string? brand, string? model, int? registrationYear, VehicleType vehicleType)
         {
             Customer = customer;
             LicensePlate = licensePlate;
             Brand = brand;
             Model = model;
-            RegistrationDate = registrationDate;
+            RegistrationYear = registrationYear;
             VehicleType = vehicleType;
         }
         public Vehicle() { }
