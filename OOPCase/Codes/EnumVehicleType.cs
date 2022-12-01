@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OOPCase.Codes
 {
-    internal enum VeichleType
+    internal enum VehicleType
     {
         Bil,
         Motorcykel,

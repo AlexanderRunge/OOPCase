@@ -8,6 +8,6 @@ namespace OOPCase.Codes
 {
     internal sealed class Customer : Person
     {
-        public Customer(string? firstName, string? lastName, int phoneNumber) : base(firstName, lastName, phoneNumber) {}
+        public Customer(string? firstName, string? lastName, int? phoneNumber) : base(firstName, lastName, phoneNumber) {}
     }
 }
